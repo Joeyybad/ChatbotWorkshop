@@ -2,23 +2,15 @@
 //Recupération des données json
 
 let data = {};
-fetch("data.json")
-    .then(response => {
-        if (!response.ok) {
-            throw new error('Erreur du chargement des données json')
-        }
-        return response.json();
-    })
-    .then(jsonData => {
-        data = jsonData;
 
-        console.log("donnée chargée :", data);
-        setupOptionButtons()
-    })
-
-    .catch(Error => {
-        console.error("Erreur de chargement Json", Error)
-    })
+fetch("/api/data")
+  .then(res => res.json())
+  .then(jsonData => {
+    data = jsonData;
+    console.log("Données depuis MySQL :", data);
+    setupOptionButtons();
+  })
+  .catch(err => console.error("Erreur API :", err));
 
 
 const toggleButton = document.getElementById("toggleChatButton");
