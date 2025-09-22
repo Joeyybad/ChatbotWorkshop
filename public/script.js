@@ -3,14 +3,14 @@
 
 let data = {};
 
-fetch("/api/data")
+/*fetch("/api/data")
   .then(res => res.json())
   .then(jsonData => {
     data = jsonData;
     console.log("Données depuis MySQL :", data);
     setupOptionButtons();
   })
-  .catch(err => console.error("Erreur API :", err));
+  .catch(err => console.error("Erreur API :", err));*/
 
 
 const toggleButton = document.getElementById("toggleChatButton");
@@ -98,7 +98,7 @@ function createBotMessage(message) {
 }
 
 // Associer les boutons à leurs réponses
-function setupOptionButtons() {
+/*function setupOptionButtons() {
     const chatOptions = document.getElementById("chatOptions");
     chatOptions.innerHTML = ""; // Vide le conteneur avant d'ajouter
 
@@ -123,7 +123,13 @@ function setupOptionButtons() {
             button.disabled = true;
         });
     });
-}
+}*/
+
+const searchForm = document.getElementById("chatSearchForm");
+
+searchForm.addEventListener("submit", (e) => {
+  e.preventDefault(); // évite le rechargement de la page
+});
 
 // bouton pour la recherche 
 const searchInput = document.getElementById("chatSearchInput");
@@ -144,14 +150,14 @@ searchButton.addEventListener("click", async () => {
         if (titles.length === 0) {
             createBotMessage("Aucun résultat trouvé pour votre recherche.");
         } else {
-            titles.forEach(titre => {
+            titles.forEach(item => {
                 const bubble = document.createElement("div");
                 bubble.className = "searchBubble";
-                bubble.textContent = titre;
+                bubble.textContent = item.titre;
 
                 bubble.addEventListener("click", async () => {
                     // Récupère le texte complet pour ce titre
-                    const res2 = await fetch(`/api/get-text?titre=${encodeURIComponent(titre)}`);
+                    const res2 = await fetch(`/api/get-text?id=${encodeURIComponent(item.id)}`);
                     const data = await res2.json();
                     createBotMessage(typeof data.texte === "string" ? data.texte : JSON.stringify(data.texte));
                     searchResults.innerHTML = ""; // vide les propositions après sélection
