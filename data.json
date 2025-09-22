@@ -1,0 +1,26 @@
+{
+    "identite": {
+        "prenom": "Jordan",
+        "nom": "Nkunga"
+    },
+    "parcours_professionnel": "Initialement je proviens du milieu sportif. J'ai voulu ajouter une plus-value à mon activité sportive en ayant un site, raison pour laquelle je me suis intéressé à l'informatique.",
+    "formation": {
+        "diplome": "Développeur web et web mobile",
+        "niveau": "Bac+2",
+        "lieu": "Le Mans",
+        "organisme": "Via formation"
+    },
+    "competences": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "NodeJs",
+        "MySQL",
+        "Git"
+    ],
+    "interets": [
+        "Sport",
+        "Développement web",
+        "Création de sites internet"
+    ]
+}
