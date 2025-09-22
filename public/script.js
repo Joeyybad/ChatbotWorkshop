@@ -1,18 +1,3 @@
-
-//Recupération des données json
-
-let data = {};
-
-/*fetch("/api/data")
-  .then(res => res.json())
-  .then(jsonData => {
-    data = jsonData;
-    console.log("Données depuis MySQL :", data);
-    setupOptionButtons();
-  })
-  .catch(err => console.error("Erreur API :", err));*/
-
-
 const toggleButton = document.getElementById("toggleChatButton");
 const chatBox = document.querySelector(".chatcontainer");
 const welcomeMessage = document.querySelector(".welcomeMessage");
@@ -96,34 +81,6 @@ function createBotMessage(message) {
 
     document.getElementById("chat").appendChild(wrapper);
 }
-
-// Associer les boutons à leurs réponses
-/*function setupOptionButtons() {
-    const chatOptions = document.getElementById("chatOptions");
-    chatOptions.innerHTML = ""; // Vide le conteneur avant d'ajouter
-
-    // data est un objet { titre1: texte1, titre2: texte2, ... }
-    Object.keys(data).forEach(key => {
-        const buttonDiv = document.createElement("div");
-        buttonDiv.className = "chatOptionsDiv";
-
-        const button = document.createElement("button");
-        button.className = "chatOptions";
-        button.setAttribute("data-key", key);
-        button.textContent = key; // afficher le titre
-
-        buttonDiv.appendChild(button);
-        chatOptions.appendChild(buttonDiv);
-
-        // Event listener pour chaque bouton
-        button.addEventListener("click", () => {
-            if (button.disabled) return; // éviter les doublons
-            const message = data[key];
-            if (message) createBotMessage(message);
-            button.disabled = true;
-        });
-    });
-}*/
 
 const searchForm = document.getElementById("chatSearchForm");
 

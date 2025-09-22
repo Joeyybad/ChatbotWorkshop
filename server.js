@@ -14,7 +14,8 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
-
+/* ALTER TABLE chatbot_data
+ADD FULLTEXT idx_fulltext_texte (texte); */
 // Retourne les titres correspondant au mot-clé
 app.get("/api/search-titles", async (req, res) => {
   const { keyword } = req.query;
@@ -22,8 +23,13 @@ app.get("/api/search-titles", async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT id, titre FROM chatbot_data WHERE titre LIKE ? OR texte LIKE ?",
-      [`%${keyword}%`, `%${keyword}%`]
+      `SELECT id, titre, texte, 
+              MATCH(texte) AGAINST(? IN NATURAL LANGUAGE MODE) AS score
+       FROM chatbot_data
+       WHERE titre LIKE ?
+          OR MATCH(texte) AGAINST(? IN NATURAL LANGUAGE MODE)
+       ORDER BY score DESC`,
+      [keyword, `%${keyword}%`, keyword]
     );
     res.json(rows);
   } catch (err) {
