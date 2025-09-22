@@ -123,3 +123,43 @@ function setupOptionButtons() {
     });
 }
 
+// bouton pour la recherche 
+const searchInput = document.getElementById("chatSearchInput");
+const searchButton = document.getElementById("chatSearchButton");
+const searchResults = document.getElementById("searchResults");
+
+earchButton.addEventListener("click", async () => {
+    const keyword = searchInput.value.trim();
+    if (!keyword) return;
+
+    searchResults.innerHTML = ""; // vide les anciennes propositions
+
+    try {
+        // Récupère les titres correspondant au mot-clé
+        const res = await fetch(`/api/search-titles?keyword=${encodeURIComponent(keyword)}`);
+        const titles = await res.json();
+
+        if (titles.length === 0) {
+            createBotMessage("Aucun résultat trouvé pour votre recherche.");
+        } else {
+            titles.forEach(titre => {
+                const bubble = document.createElement("div");
+                bubble.className = "searchBubble";
+                bubble.textContent = titre;
+
+                bubble.addEventListener("click", async () => {
+                    // Récupère le texte complet pour ce titre
+                    const res2 = await fetch(`/api/get-text?titre=${encodeURIComponent(titre)}`);
+                    const data = await res2.json();
+                    createBotMessage(typeof data.texte === "string" ? data.texte : JSON.stringify(data.texte));
+                    searchResults.innerHTML = ""; // vide les propositions après sélection
+                });
+
+                searchResults.appendChild(bubble);
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        createBotMessage("Erreur lors de la recherche.");
+    }
+});

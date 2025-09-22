@@ -31,6 +31,52 @@ body {
     fill: white;
 }
 
+/************* Fin barre de recherche  **************/
+
+.chatSearch {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.chatSearch input {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.chatSearch button {
+    margin-top: 5px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    background-color: #2a2abb;
+    color: white;
+    cursor: pointer;
+}
+
+.chatSearchResults {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.searchBubble {
+    background-color: #2a2abb;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: inline-block;
+    max-width: 80%;
+}
+.searchBubble:hover {
+    background-color: #1e1e9b;
+}
+/************* Fin barre de recherche  **************/
+
 /****** Fin initialisation du Chat ******/
 
 /****** Chat Container *******/
