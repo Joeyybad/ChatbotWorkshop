@@ -1,16 +1,17 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
 const path = require("path");
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 
 // Connexion à MySQL
 const pool = mysql.createPool({
-  host: "localhost",
-  user: "nodeuser",
-  password: "nodepassword",
-  database: "chatbot",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 

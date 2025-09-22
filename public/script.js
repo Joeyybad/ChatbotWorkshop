@@ -99,26 +99,28 @@ function createBotMessage(message) {
 
 // Associer les boutons à leurs réponses
 function setupOptionButtons() {
-    const buttons = document.querySelectorAll("#chatOptions button");
+    const chatOptions = document.getElementById("chatOptions");
+    chatOptions.innerHTML = ""; // Vide le conteneur avant d'ajouter
 
-    buttons.forEach(button => {
+    // data est un objet { titre1: texte1, titre2: texte2, ... }
+    Object.keys(data).forEach(key => {
+        const buttonDiv = document.createElement("div");
+        buttonDiv.className = "chatOptionsDiv";
+
+        const button = document.createElement("button");
+        button.className = "chatOptions";
+        button.setAttribute("data-key", key);
+        button.textContent = key; // afficher le titre
+
+        buttonDiv.appendChild(button);
+        chatOptions.appendChild(buttonDiv);
+
+        // Event listener pour chaque bouton
         button.addEventListener("click", () => {
-            const key = button.getAttribute("data-key");
-            //eviter les doublonsx
-            if (button.disabled) return;
-
-            let message = "";
-
-            if (key === "formation" && data.formation) {
-                message = `${data.formation.diplome} (${data.formation.niveau}) à ${data.formation.lieu} avec ${data.formation.organisme}`;
-            } else if (data[key]) {
-                message = data[key];
-            }
-
-            if (message) {
-                createBotMessage(message);
-                button.disabled = true;
-            }
+            if (button.disabled) return; // éviter les doublons
+            const message = data[key];
+            if (message) createBotMessage(message);
+            button.disabled = true;
         });
     });
 }
@@ -128,7 +130,7 @@ const searchInput = document.getElementById("chatSearchInput");
 const searchButton = document.getElementById("chatSearchButton");
 const searchResults = document.getElementById("searchResults");
 
-earchButton.addEventListener("click", async () => {
+searchButton.addEventListener("click", async () => {
     const keyword = searchInput.value.trim();
     if (!keyword) return;
 
