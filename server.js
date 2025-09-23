@@ -56,6 +56,13 @@ app.get("/api/get-text", async (req, res) => {
 // ---------- Servir le front ----------
 app.use(express.static(path.join(__dirname, "public")));
 
+// Exemple de route pour ta page
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.use("/images", express.static(path.join(__dirname, "images")));
+
 app.listen(3000, () => {
   console.log("Serveur lancé sur http://localhost:3000");
 });
