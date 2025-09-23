@@ -5,62 +5,83 @@ const chatOptions = document.getElementById("chatOptions");
 
 
 
-//fonction pour faire apparaitre le chat
+//<------- fonction pour faire apparaitre le chat ------->
 
 toggleButton.addEventListener("click", () => {
     if (chatBox.style.display === "none" || chatBox.style.display === "") {
         chatBox.style.display = "flex";
-
 
         setTimeout(() => {
             welcomeMessage.style.display = "block";
             welcomeMessage.classList.add("show");
         }, 1000);
 
-
-        setTimeout(() => {
-            chatOptions.classList.add("show");
-        }, 2000);
-
     } else {
         chatBox.style.display = "none";
-        // Réinitialise pour rejouer l’animation au prochain clic
-        welcomeMessage.classList.remove("show");
-        chatOptions.classList.remove("show");
-        welcomeMessage.style.display = "none";
+
+        // Réinitialise le contenu pour rejouer les animations au prochain clic
+        resetChat();
     }
 });
 
-// Efface tous les messages et réinitialise le chat
+//<------- fonction pour reset le chat ------->
+
+function resetChat() {
+    const chat = document.getElementById("chat");
+
+    // Supprimer tous les messages sauf le "welcome" initial
+    const extraMessages = chat.querySelectorAll(".welcomeWrapper:not(#initialWelcome), .botMessage, .userMessage");
+    extraMessages.forEach(el => el.remove());
+
+    // Réinitialiser le message de bienvenue
+    const welcomeMessage = document.getElementById("welcomeMessage");
+    welcomeMessage.style.display = "none";
+    welcomeMessage.classList.remove("show");
+    welcomeMessage.classList.remove("animate-fade-in-up");
+
+    // Rejouer l'animation au prochain affichage
+    setTimeout(() => {
+        welcomeMessage.style.display = "block";
+        welcomeMessage.classList.add("animate-fade-in-up");
+        welcomeMessage.classList.add("show");
+    }, 100);
+}
+
+//<----- Efface tous les messages et réinitialise le chat ------>
+
 const shownResponses = new Set();
 
 document.getElementById("clearChatButton").addEventListener("click", () => {
-    const chatBox = document.querySelector(".chatcontainer");
     const chat = document.getElementById("chat");
     const welcomeMessage = document.getElementById("welcomeMessage");
-    const chatOptions = document.getElementById("chatOptions");
 
-    // Supprimer uniquement les réponses ajoutées dynamiquement
-    const extraMessages = chat.querySelectorAll(".welcomeWrapper:not(#initialWelcome)");
+    // Supprimer uniquement les messages ajoutés dynamiquement
+    const extraMessages = chat.querySelectorAll(".welcomeWrapper:not(#initialWelcome), .botMessage, .userMessage");
     extraMessages.forEach(el => el.remove());
 
-    // Masquer les éléments de base pour réinitialiser
-    welcomeMessage.classList.remove("show");
+    // Vider aussi les résultats de recherche
+    document.getElementById("searchResults").innerHTML = "";
+
+    // Réinitialiser le message de bienvenue
     welcomeMessage.style.display = "none";
-    chatOptions.classList.remove("show");
+    welcomeMessage.classList.remove("show", "animate-fade-in-up");
 
-    // Réactiver les boutons
+    setTimeout(() => {
+        welcomeMessage.style.display = "block";
+        welcomeMessage.classList.add("animate-fade-in-up", "show");
+    }, 100);
+
+    // Réactiver les boutons si jamais tu en réutilises
     document.querySelectorAll("#chatOptions button").forEach(btn => btn.disabled = false);
-    shownResponses.clear(); // Réinitialise les réponses affichées
-
-    // Fermer le chat
-    chatBox.style.display = "none";
+    shownResponses.clear();
 });
+
 
 const responseDiv = document.getElementById("response");
 const buttons = document.querySelectorAll("#chatOptions button");
 
-//Fonction pour afficher les messages du bot
+//<------- Fonction pour afficher la réponse ------->
+
 function createBotMessage(message) {
     const wrapper = document.createElement("div");
     wrapper.className = "welcomeWrapper";

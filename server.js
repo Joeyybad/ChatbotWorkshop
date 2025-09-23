@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 
-// Connexion à MySQL
+//<------- Connexion à MySQL via env  ------>
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -14,13 +14,13 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
+//<-----Retourne les titres correspondant au mot------->
 /* ALTER TABLE chatbot_data
 ADD FULLTEXT idx_fulltext_texte (texte); */
-// Retourne les titres correspondant au mot-clé
+//Get routing
 app.get("/api/search-titles", async (req, res) => {
   const { keyword } = req.query;
   if (!keyword) return res.json([]);
-
   try {
     const [rows] = await pool.query(
       `SELECT id, titre, texte, 
@@ -39,7 +39,9 @@ app.get("/api/search-titles", async (req, res) => {
   }
 });
 
-// Retourne le texte complet pour un titre donné
+//<------- Retourne le texte complet pour un titre donné -------> 
+
+//Get routing 
 app.get("/api/get-text", async (req, res) => {
   const { id } = req.query;
   if (!id) return res.status(400).json({ error: "ID manquant" });
@@ -62,7 +64,7 @@ app.get("/api/get-text", async (req, res) => {
 });
 
 
-// Servir le front
+// <-----Servir le front------>
 app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(3000, () => {
