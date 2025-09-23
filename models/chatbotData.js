@@ -4,9 +4,14 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class ChatbotData extends Model {
     static associate(models) {
-      // Associations si besoin
+      ChatbotData.belongsToMany(models.ListeFamille, {
+        through: 'famille_article',
+        foreignKey: 'id_article',
+        otherKey: 'id_famille'
+      });
     }
   }
+
 
   ChatbotData.init({
     titre: {

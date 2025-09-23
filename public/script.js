@@ -56,11 +56,9 @@ document.getElementById("clearChatButton").addEventListener("click", () => {
     const welcomeMessage = document.getElementById("welcomeMessage");
 
     // Supprimer uniquement les messages ajoutés dynamiquement
-    const extraMessages = chat.querySelectorAll(".welcomeWrapper:not(#initialWelcome), .botMessage, .userMessage");
+    const extraMessages = chat.querySelectorAll(".welcomeWrapper:not(#initialWelcome), .botMessage, .userMessage, .searchBubble");
     extraMessages.forEach(el => el.remove());
-
-    // Vider aussi les résultats de recherche
-    document.getElementById("searchResults").innerHTML = "";
+    
 
     // Réinitialiser le message de bienvenue
     welcomeMessage.style.display = "none";
