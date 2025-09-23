@@ -1,7 +1,8 @@
 const express = require("express");
 const path = require("path");
 const { Op, fn, col, literal } = require("sequelize");
-const { ChatbotData } = require("./models"); // index.js généré par Sequelize CLI
+const { ListeFamille, ChatbotData } = require("./models"); // index.js généré par Sequelize CLI
+
 
 const app = express();
 app.use(express.json());
@@ -53,8 +54,43 @@ app.get("/api/get-text", async (req, res) => {
   }
 });
 
+// ---------- Requête pour récupérer les familles et articles ----------
+app.get("/api/familles-articles", async (req, res) => {
+  try {
+    const familles = await ListeFamille.findAll({
+      include: [
+        {
+          model: ChatbotData,
+          through: { attributes: [] }, // n'inclut pas la table de jointure
+          attributes: ["id", "titre", "texte"]
+        }
+      ],
+      attributes: ["id", "famille"],
+      order: [["famille", "ASC"]]
+    });
+
+    // Transformer en [{ famille, articles: [...] }]
+    const result = familles.map(f => ({
+      famille: f.famille,
+      articles: f.ChatbotData
+    }));
+
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
 // ---------- Servir le front ----------
 app.use(express.static(path.join(__dirname, "public")));
+
+// Exemple de route pour ta page
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.listen(3000, () => {
   console.log("Serveur lancé sur http://localhost:3000");
