@@ -3,7 +3,7 @@ const chatBox = document.querySelector(".chatcontainer");
 const welcomeMessage = document.querySelector(".welcomeMessage");
 const chatOptions = document.getElementById("chatOptions");
 
-
+window.addEventListener("DOMContentLoaded", loadFamilles); // on charge les familles + articles au démarrage de la page
 
 //<------- fonction pour faire apparaitre le chat ------->
 
@@ -174,3 +174,100 @@ searchButton.addEventListener("click", async () => {
         createBotMessage("Erreur lors de la recherche.");
     }
 });
+
+
+// Fonction pour faire le choix entre la liste des catégories ou des récents 
+const tabCategories = document.getElementById("tabCategories");
+const tabRecent = document.getElementById("tabRecent");
+
+const categoriesView = document.getElementById("categoriesView");           // ton affichage catégories
+const articlesRecentView = document.getElementById("articlesRecentView"); // articles d'une famille
+
+// Gestion du clic sur Catégories
+tabCategories.addEventListener("click", () => {
+  tabCategories.classList.add("active");
+  tabRecent.classList.remove("active");
+
+  categoriesView.classList.remove("hidden");
+  articlesRecentView.classList.add("hidden");
+});
+
+// Gestion du clic sur Récent
+tabRecent.addEventListener("click", () => {
+  tabRecent.classList.add("active");
+  tabCategories.classList.remove("active");
+  document.getElementById("majorBibliotheque").textContent = "Bibliothèque";
+
+  categoriesView.classList.add("hidden");
+  articlesRecentView.classList.remove("hidden");
+});
+
+
+// Fonction pour afficher la liste des familles avec articles
+async function loadFamilles() {
+    const res = await fetch("/api/familles-articles");
+    const familles = await res.json();
+
+    const grid = document.getElementById("familles-grid");
+    const articlesView = document.getElementById("articles-view");
+    const articlesBtn = document.getElementById("articles-btn");
+
+    grid.innerHTML = "";
+    familles.forEach(f => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+        <h4>${f.famille}</h4>
+        <span class="badge">${f.count} articles</span>
+        `;
+        card.addEventListener("click", () => showArticles(f));
+        grid.appendChild(card);
+    });
+
+    function showArticles(famille) {
+        grid.classList.add("hidden");
+        articlesView.classList.remove("hidden");
+        articlesBtn.classList.remove("hidden");
+        // on select l'element avec l'id "majorBibliotheque", on le change
+        const major = document.getElementById("majorBibliotheque");
+        major.textContent = famille.famille;
+
+        articlesView.innerHTML = `
+            ${famille.articles.map(a => `<p data-id="${a.id}" class="article-item">${a.titre}</p>`).join("")}
+        `;
+        articlesBtn.innerHTML = `<button id="backBtn">⬅ Retour</button>`;
+
+        document.getElementById("backBtn").addEventListener("click", () => {
+            articlesView.classList.add("hidden");
+            articlesBtn.classList.add("hidden");
+            grid.classList.remove("hidden");
+            // On remet le titre par défaut
+            major.textContent = "Bibliothèque";
+        });
+
+        // Ajout des événements click sur chaque article
+        document.querySelectorAll(".article-item").forEach(item => {
+            item.addEventListener("click", async () => {
+            const id = item.getAttribute("data-id");
+
+            // On appelle ton API pour récupérer le texte complet
+            const res = await fetch(`/api/get-text?id=${id}`);
+            const data = await res.json();
+
+            // On affiche le contenu de l'article
+            articlesView.innerHTML = `<p>${data.texte}</p>`;
+            articlesBtn.innerHTML = `<button id="backArticlesBtn">⬅ Retour</button>`;
+
+            
+            major.textContent = item.textContent;
+
+            // Bouton retour aux articles
+            document.getElementById("backArticlesBtn").addEventListener("click", () => {
+                    showArticles(famille); // on recharge la liste d'articles
+                });
+            });
+        });
+    }
+}
+
+

@@ -12,6 +12,9 @@
   <!-- Styles spécifiques au chatbot -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
+  <!-- Styles spécifiques à la liste des familles -->
+  <link rel="stylesheet" href="assets/css/ListeFamille.css" />
+
   <!-- Fallback sans JS -->
   <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>
@@ -39,7 +42,7 @@
       </div>
       <nav>
         <ul>
-          <li><a href="#intro">Intro</a></li>
+          <li><a href="#bibliotheque">Bibliothèque</a></li>
           <li><a href="#work">Work</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -49,10 +52,21 @@
 
     <!-- Main -->
     <div id="main">
-      <!-- Intro -->
-      <article id="intro">
-        <h2 class="major">Intro</h2>
-        <p>Ici le contenu "Intro" du template...</p>
+      <!-- bibliotheque -->
+      <article id="bibliotheque">
+        <h2 class="major" id="majorBibliotheque">Bibliothèque</h2>
+        <div class="tabs">
+            <p id="tabCategories" class="tab active">Catégories</p>
+            <p id="tabRecent" class="tab">Récent</p>
+        </div>
+        <div id="categoriesView">
+            <div id="familles-grid" class="grid"></div>
+            <div id="articles-view" class="articles-view hidden"></div>
+            <div id="articles-btn" class="articles-btn hidden"></div>
+        </div>
+        <div id="articlesRecentView" class="hidden">
+            <p>Section des récents</p>
+        </div>
       </article>
 
       <!-- Work -->
