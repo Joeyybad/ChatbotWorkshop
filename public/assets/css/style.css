@@ -1,0 +1,261 @@
+/* style.css */
+/* Background général (optionnel) */
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: url('images/marek-piwnicki-unsplash.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/******   Bouton initialisation du Chat *******/
+.chat-toggle {
+    position: fixed;
+    bottom: 40px;
+    right: 250px;
+    background-color: #39393b25;
+    border: rgb(67, 67, 67);
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 999;
+}
+
+.iconChat {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+/****** Fin initialisation du Chat ******/
+
+
+/************* Début barre de recherche  **************/
+
+.chatSearch {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.chatSearch input {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.chatSearch button {
+    margin-top: 2px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: none;
+    background-color: #7e7e8a81;
+    color: white;
+    cursor: pointer;
+}
+
+.chatSearchResults {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.searchBubble {
+    background-color: #79798d;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: inline-block;
+    width: 80%;
+    margin-bottom: 15px;
+    text-align: center;
+
+}
+.searchBubble:hover {
+    background-color: #1e1e9b;
+}
+/************* Fin barre de recherche  **************/
+
+/************* Début Chatbox  **************/
+
+/* Chatbox container */
+.chatcontainer {
+  position: fixed;
+  bottom: 80px;       
+  right: 20px;        
+  width: 300px;
+  max-height: 400px;
+  background: rgba(0,0,0,0.3); /* fond semi-transparent sombre */
+  backdrop-filter: blur(8px);   /* flou derrière */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+  transition: all 0.3s ease;
+}
+
+/* Bouton flottant */
+.chat-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(102, 102, 129, 0.52); /* semi-transparent */
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 10000;
+  transition: all 0.3s ease;
+}
+
+/* Responsive : écran petit */
+@media screen and (max-width: 768px) {
+  .chatcontainer {
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%); 
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .chat-toggle {
+    bottom: 10px;
+    right: 10px;
+  }
+}
+
+/* Header du chat */
+.headerchat {
+    background-color: rgba(0,0,0,0.3); /* au lieu de blanc ou gris clair */
+    color: #fff; /* texte clair */
+    padding: 15px;
+    font-size: 12px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Messages */
+.bodychat {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.1);  /* très léger pour garder visibilité du fond */
+    backdrop-filter: blur(4px);
+}
+
+/* Options et messages */
+.welcomeWrapper, .userMessageWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.welcomeMessage {
+    background-color: rgba(255, 255, 255, 0.049); /* léger blanc semi-transparent */
+    border-radius: 20px;
+    padding: 10px;
+    max-width: 80%;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+/* Boutons de choix */
+.chatOptionsDiv {
+    margin: 8px 0;
+    padding: 12px 0;
+    border: 1px solid rgb(31, 31, 31);
+    border-radius: 30px;
+    background-color: #ffeb3b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chatOptions {
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 8px 20px;
+    transition: color 0.3s ease;
+}
+
+.chatOptions:hover {
+    color: #444;
+}
+
+/* Footer du chat */
+.chatfooter {
+    background-color: rgba(0,0,0,0.2);
+    color: #fff;
+    padding: 6px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-align: center;
+}
+
+/* Bouton clear */
+#clearChatButton {
+    position: absolute;
+    bottom: 1px;
+    right: 10px;
+    background-color: rgba(255,255,255,0.8);
+    border: none;
+    padding: 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.boutonCroix {
+    width: 24px;
+    height: 24px;
+    fill: #070707;
+}
+
+/****** Fin Chat Container *******/
+
+/******** Animation *********/
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
