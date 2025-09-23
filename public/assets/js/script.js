@@ -71,7 +71,9 @@ document.getElementById("clearChatButton").addEventListener("click", () => {
 
     // Réactiver les boutons si jamais tu en réutilises
     document.querySelectorAll("#chatOptions button").forEach(btn => btn.disabled = false);
+    
     shownResponses.clear();
+
 });
 
 
