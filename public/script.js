@@ -73,7 +73,7 @@ function createBotMessage(message) {
 
     const messageText = document.createElement("div");
     messageText.className = "welcomeText";
-    messageText.innerHTML = `<span>Jordan EPSI</span><div class="bodyWelcome">${message}</div>`;
+    messageText.innerHTML = `<div class="bodyWelcome">${message}</div>`;
 
     messageBox.appendChild(messageText);
     wrapper.appendChild(avatar);
@@ -91,13 +91,12 @@ searchForm.addEventListener("submit", (e) => {
 // bouton pour la recherche 
 const searchInput = document.getElementById("chatSearchInput");
 const searchButton = document.getElementById("chatSearchButton");
-const searchResults = document.getElementById("searchResults");
 
 searchButton.addEventListener("click", async () => {
     const keyword = searchInput.value.trim();
     if (!keyword) return;
 
-    searchResults.innerHTML = ""; // vide les anciennes propositions
+    document.querySelectorAll(".searchBubble").forEach(b => b.remove()); // supprimer les anciennes propositions
 
     try {
         // Récupère les titres correspondant au mot-clé
@@ -117,10 +116,10 @@ searchButton.addEventListener("click", async () => {
                     const res2 = await fetch(`/api/get-text?id=${encodeURIComponent(item.id)}`);
                     const data = await res2.json();
                     createBotMessage(typeof data.texte === "string" ? data.texte : JSON.stringify(data.texte));
-                    searchResults.innerHTML = ""; // vide les propositions après sélection
+                    document.querySelectorAll(".searchBubble").forEach(b => b.remove());
                 });
 
-                searchResults.appendChild(bubble);
+                document.getElementById("chat").appendChild(bubble);
             });
         }
     } catch (err) {

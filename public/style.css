@@ -70,7 +70,10 @@ body {
     border-radius: 20px;
     cursor: pointer;
     display: inline-block;
-    max-width: 80%;
+    width: 80%;
+    margin-bottom: 15px;
+    text-align: center;
+
 }
 .searchBubble:hover {
     background-color: #1e1e9b;
@@ -127,6 +130,7 @@ body {
     gap: 10px;
     max-width: 350px;
     box-sizing: border-box;
+    max-width: 80%;
 }
 
 .avatar {
@@ -143,6 +147,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 #chatOptions {
