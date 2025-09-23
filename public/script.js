@@ -1,5 +1,5 @@
 
-//Recupération des données json
+// <------- Fonction pour recupérer des données json ------->
 
 let data = {};
 
@@ -20,7 +20,7 @@ const chatOptions = document.getElementById("chatOptions");
 
 
 
-//fonction pour faire apparaitre le chat
+//<------- fonction pour faire apparaitre le chat ------->
 
 toggleButton.addEventListener("click", () => {
     if (chatBox.style.display === "none" || chatBox.style.display === "") {
@@ -39,7 +39,8 @@ toggleButton.addEventListener("click", () => {
     }
 });
 
-// function pour faire reset le chat 
+//<------- fonction pour reset le chat ------->
+
 function resetChat() {
     const chat = document.getElementById("chat");
 
@@ -61,7 +62,8 @@ function resetChat() {
     }, 100);
 }
 
-// Efface tous les messages et réinitialise le chat
+//<----- Efface tous les messages et réinitialise le chat ------>
+
 const shownResponses = new Set();
 
 document.getElementById("clearChatButton").addEventListener("click", () => {
@@ -93,7 +95,8 @@ document.getElementById("clearChatButton").addEventListener("click", () => {
 const responseDiv = document.getElementById("response");
 const buttons = document.querySelectorAll("#chatOptions button");
 
-//Fonction pour afficher la réponse
+//<------- Fonction pour afficher la réponse ------->
+
 function createBotMessage(message) {
     const wrapper = document.createElement("div");
     wrapper.className = "welcomeWrapper";
@@ -115,7 +118,8 @@ function createBotMessage(message) {
     document.getElementById("chat").appendChild(wrapper);
 }
 
-// Associer les boutons à leurs réponses
+//<--------- Fonction pour associer les boutons à leurs réponses -------->
+
 function setupOptionButtons() {
     const chatOptions = document.getElementById("chatOptions");
     chatOptions.innerHTML = ""; // Vide le conteneur avant d'ajouter

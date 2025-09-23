@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 
-// Connexion à MySQL
+//<------- Connexion à MySQL via env  ------>
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -15,11 +15,12 @@ const pool = mysql.createPool({
 });
 
 
-// Retourne les titres correspondant au mot-clé
+//<-----Retourne les titres correspondant au mot------->
+
+//Get routing
 app.get("/api/search-titles", async (req, res) => {
   const { keyword } = req.query;
   if (!keyword) return res.json([]);
-
   try {
     const [rows] = await pool.query(
       "SELECT titre FROM chatbot_data WHERE titre LIKE ? OR texte LIKE ?",
@@ -31,7 +32,10 @@ app.get("/api/search-titles", async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
-// Retourne le texte complet pour un titre donné
+
+//<------- Retourne le texte complet pour un titre donné -------> 
+
+//Get routing 
 app.get("/api/get-text", async (req, res) => {
   const { titre } = req.query;
   if (!titre) return res.status(400).json({ error: "Titre manquant" });
@@ -54,7 +58,7 @@ app.get("/api/get-text", async (req, res) => {
 });
 
 
-// Servir le front
+// <-----Servir le front------>
 app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(3000, () => {
