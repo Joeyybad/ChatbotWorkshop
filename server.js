@@ -28,7 +28,8 @@ app.get("/api/search-titles", async (req, res) => {
        FROM chatbot_data
        WHERE titre LIKE ?
           OR MATCH(texte) AGAINST(? IN NATURAL LANGUAGE MODE)
-       ORDER BY score DESC`,
+       ORDER BY score DESC
+       LIMIT 15`,
       [keyword, `%${keyword}%`, keyword]
     );
     res.json(rows);

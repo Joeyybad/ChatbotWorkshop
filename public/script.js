@@ -60,7 +60,7 @@ document.getElementById("clearChatButton").addEventListener("click", () => {
 const responseDiv = document.getElementById("response");
 const buttons = document.querySelectorAll("#chatOptions button");
 
-//Fonction pour afficher la réponse
+//Fonction pour afficher les messages du bot
 function createBotMessage(message) {
     const wrapper = document.createElement("div");
     wrapper.className = "welcomeWrapper";
@@ -82,6 +82,29 @@ function createBotMessage(message) {
     document.getElementById("chat").appendChild(wrapper);
 }
 
+//Fonction pour afficher les messages de l'utilisateur
+function createUserMessage(message) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "welcomeWrapper userMessageWrapper"; // ajout d'une classe spéciale
+
+    const messageBox = document.createElement("div");
+    messageBox.className = "welcomeMessage show";
+
+    const messageText = document.createElement("div");
+    messageText.className = "welcomeText";
+    messageText.innerHTML = `<div class="bodyWelcome">${message}</div>`;
+
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+
+    // Ordre inversé : message puis avatar
+    messageBox.appendChild(messageText);
+    wrapper.appendChild(messageBox);
+    wrapper.appendChild(avatar);
+
+    document.getElementById("chat").appendChild(wrapper);
+}
+
 const searchForm = document.getElementById("chatSearchForm");
 
 searchForm.addEventListener("submit", (e) => {
@@ -97,6 +120,7 @@ searchButton.addEventListener("click", async () => {
     if (!keyword) return;
 
     document.querySelectorAll(".searchBubble").forEach(b => b.remove()); // supprimer les anciennes propositions
+    createUserMessage(keyword);
 
     try {
         // Récupère les titres correspondant au mot-clé
@@ -112,6 +136,8 @@ searchButton.addEventListener("click", async () => {
                 bubble.textContent = item.titre;
 
                 bubble.addEventListener("click", async () => {
+                    const message = "Je veux lire '" + item.titre + "'";
+                    createUserMessage(message);
                     // Récupère le texte complet pour ce titre
                     const res2 = await fetch(`/api/get-text?id=${encodeURIComponent(item.id)}`);
                     const data = await res2.json();
