@@ -189,13 +189,15 @@ input, select, textarea {
 		}
 
 		h1.major, h2.major, h3.major, h4.major, h5.major, h6.major {
-			border-bottom: solid 1px #ffffff;
+			border-bottom: solid 1px #ff8f00;
 			width: -moz-max-content;
 			width: -webkit-max-content;
 			width: -ms-max-content;
 			width: max-content;
 			padding-bottom: 0.5rem;
 			margin: 0 0 2rem 0;
+            color:#000000;
+
 		}
 
 	h1 {
@@ -1279,7 +1281,7 @@ input, select, textarea {
 				left: calc(50% - 1px);
 				width: 1px;
 				height: calc(3.5rem + 1px);
-				background: #ffffff;
+				background: #ff8f00;
 			}
 
 		#header > :first-child {
@@ -1294,7 +1296,7 @@ input, select, textarea {
 			width: 5.5rem;
 			height: 5.5rem;
 			line-height: 5.5rem;
-			border: solid 1px #ffffff;
+			border: solid 1px #ff8f00;
 			border-radius: 100%;
 		}
 
@@ -1304,7 +1306,7 @@ input, select, textarea {
 
 		#header .content {
 			border-style: solid;
-			border-color: #ffffff;
+			border-color: #ff8f00;
 			border-top-width: 1px;
 			border-bottom-width: 1px;
 			max-width: 100%;
@@ -1343,13 +1345,13 @@ input, select, textarea {
 			margin-bottom: 0;
 			list-style: none;
 			padding-left: 0;
-			border: solid 1px #ffffff;
+			border: solid 1px #ff8f00;
 			border-radius: 4px;
 		}
 
 			#header nav ul li {
 				padding-left: 0;
-				border-left: solid 1px #ffffff;
+				border-left: solid 1px #ff8f00;
 			}
 
 				#header nav ul li:first-child {
@@ -1384,7 +1386,7 @@ input, select, textarea {
 			left: calc(50% - 1px);
 			width: 1px;
 			height: 100%;
-			background: #ffffff;
+			background: #ff8f00;
 		}
 
 		#header nav.use-middle ul li.is-middle {
@@ -1546,9 +1548,10 @@ input, select, textarea {
 			position: relative;
 			width: 40rem;
 			max-width: 100%;
-			background-color: rgba(27, 31, 34, 0.85);
+			background-color: rgba(255, 255, 255, 0.85);
 			border-radius: 4px;
 			opacity: 0;
+            color: black;
 		}
 
 			#main article.active {
@@ -1557,6 +1560,7 @@ input, select, textarea {
 				-ms-transform: translateY(0);
 				transform: translateY(0);
 				opacity: 1;
+                
 			}
 
 			#main article .close {
@@ -1570,6 +1574,7 @@ input, select, textarea {
 				text-indent: 4rem;
 				overflow: hidden;
 				white-space: nowrap;
+                color:#000000;
 			}
 
 				#main article .close:before {
