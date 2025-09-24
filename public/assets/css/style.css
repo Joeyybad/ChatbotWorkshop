@@ -80,65 +80,88 @@ body {
     text-align: center;
 
 }
+
 .searchBubble:hover {
     background-color: #FF6900;
 }
+
 /************* Fin barre de recherche  **************/
 
 /************* Début Chatbox  **************/
 
 /* Chatbox container */
 .chatcontainer {
-  position: fixed;
-  bottom: 80px;       
-  right: 20px;        
-  width: 300px;
-  max-height: 400px;
-  background: rgba(0,0,0,0.3); /* fond semi-transparent sombre */
-  backdrop-filter: blur(8px);   /* flou derrière */
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  z-index: 9999;
-  transition: all 0.3s ease;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    height: 600px;
+    background: rgba(0, 0, 0, 0.3);
+    /* fond semi-transparent sombre */
+    backdrop-filter: blur(8px);
+    /* flou derrière */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+    transition: all 0.3s ease;
 }
 
 /* Bouton flottant */
 .chat-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: rgba(102, 102, 129, 0.52); /* semi-transparent */
-  border: none;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  z-index: 10000;
-  transition: all 0.3s ease;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(102, 102, 129, 0.52);
+    /* semi-transparent */
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    transition: all 0.3s ease;
 }
 
 /* Responsive : écran petit */
-@media screen and (max-width: 768px) {
-  .chatcontainer {
-    bottom: 50%;
-    right: 50%;
-    transform: translate(50%, 50%); 
-    width: 90%;
-    max-width: 350px;
-  }
+@media screen and (max-width: 480px) {
+    .chatcontainer {
+        bottom: 50%;
+        right: 50%;
+        transform: translate(50%, 50%);
+        width: 75%;
+        max-width: 350px;
+    }
 
-  .chat-toggle {
-    bottom: 10px;
-    right: 10px;
-  }
+    .chat-toggle {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px;
+    }
+    #clearChatButton {
+        position: absolute;
+        bottom: 1px;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.062);
+        border: none;
+        padding: 8px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .boutonCroix {
+        width: 20px;
+        height: 20px;
+        fill: #FF6900;
+    }
 }
 
 /* Header du chat */
 .headerchat {
-    background-color: rgba(0,0,0,0.3); /* au lieu de blanc ou gris clair */
-    color: #FF6900; 
+    background-color: rgba(0, 0, 0, 0.3);
+    /* au lieu de blanc ou gris clair */
+    color: #FF6900;
     padding: 15px;
     font-size: 12px;
     border-top-left-radius: 10px;
@@ -150,12 +173,14 @@ body {
     flex: 1;
     padding: 15px;
     overflow-y: auto;
-    background: rgba(0,0,0,0.1);  /* très léger pour garder visibilité du fond */
+    background: rgba(0, 0, 0, 0.1);
+    /* très léger pour garder visibilité du fond */
     backdrop-filter: blur(4px);
 }
 
 /* Options et messages */
-.welcomeWrapper, .userMessageWrapper {
+.welcomeWrapper,
+.userMessageWrapper {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -164,7 +189,8 @@ body {
 }
 
 .welcomeMessage {
-    background-color: rgba(255, 255, 255, 0.049); /* léger blanc semi-transparent */
+    background-color: rgba(255, 255, 255, 0.049);
+    /* léger blanc semi-transparent */
     border-radius: 20px;
     padding: 10px;
     max-width: 80%;
@@ -199,7 +225,7 @@ body {
 
 /* Footer du chat */
 .chatfooter {
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     color: #fff;
     padding: 6px;
     border-bottom-left-radius: 10px;
@@ -217,7 +243,7 @@ body {
     padding: 8px;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .boutonCroix {
@@ -225,6 +251,7 @@ body {
     height: 24px;
     fill: #FF6900;
 }
+
 
 /****** Fin Chat Container *******/
 
