@@ -1,0 +1,130 @@
+.tabs {
+  display: flex;
+  border-radius: 20px;
+  width: fit-content;
+  margin-bottom: 1rem;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #333;
+  transition: all 0.3s;
+  text-align: center;
+  margin: 0;
+}
+
+
+.btnbibliotheque {
+    margin: 0;
+}
+
+.tab.active {
+  background: orange;
+  color: #fff;
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+  max-height: 60%;
+  overflow-y: auto;
+  padding: 0.5rem;
+  max-height: 40vh;
+}
+
+.card {
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.card h4, h5 {
+  margin: 0;
+  color: #000000;
+}
+.articlesRecentListe .card {
+  text-align: left;
+  align-items: baseline;
+}
+  .articlesRecentListe .card p {
+    margin: 0;
+    font-size: x-small;
+    color: #807777;
+    margin-top: 20px;
+  }
+.badge {
+  display: inline-block;
+  background: #f2f4f8;
+  color: #555;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+.hidden {
+  display: none;
+}
+
+.articles-view {
+  overflow-y: auto;
+  padding: 0.5rem;
+  max-height: 40vh;
+}
+
+.articles-btn {
+    margin-top: 3vh;
+}
+
+.articles-btn button {
+    color: #ff8f00 !important;
+    box-shadow: inset 0 0 0 1px #ff8f00;
+}
+
+.major {
+    max-width: 100%;
+}
+
+.article-item {
+    position: relative; /* nécessaire pour positionner le ::after */
+    display: table;
+    margin: 0 0 0.5rem 0;
+    color: inherit; /* garde la couleur du texte */
+    text-decoration: none; /* évite les soulignements par défaut */
+}
+
+.article-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* espace entre texte et ligne */
+    width: 0;
+    height: 2px; /* épaisseur de la ligne */
+    background-color: #ff8f00;
+    transition: width 0.3s ease; /* animation fluide */
+}
+.article-item:hover {
+    cursor: pointer;
+}
+.article-item:hover::after {
+    width: 100%; /* la ligne s’étend de gauche à droite */
+}

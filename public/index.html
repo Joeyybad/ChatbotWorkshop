@@ -12,6 +12,9 @@
   <!-- Styles spécifiques au chatbot -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
+  <!-- Styles spécifiques à la liste des familles -->
+  <link rel="stylesheet" href="assets/css/ListeFamille.css" />
+
   <!-- Fallback sans JS -->
   <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>
@@ -29,17 +32,12 @@
       <div class="content">
         <div class="inner">
           <h1>Phoenix</h1>
-          <p>
-            A fully responsive site template designed by
-            <a href="https://html5up.net">HTML5 UP</a> and released<br />
-            for free under the
-            <a href="https://html5up.net/license">Creative Commons</a> license.
-          </p>
+          <p>Horizon – De la survie à la renaissance. Plus qu’une ville, le berceau d’une civilisation nouvelle</p>
         </div>
       </div>
       <nav>
         <ul>
-          <li><a href="#intro">Bibliothèque</a></li>
+          <li><a href="#bibliotheque">Bibliothèque</a></li>
           <li><a href="#work">Work</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -49,10 +47,23 @@
 
     <!-- Main -->
     <div id="main">
-      <!-- Intro -->
-      <article id="intro">
-        <h2 class="major">Intro</h2>
-        <p>Ici le contenu "Intro" du template...</p>
+      <!-- bibliotheque -->
+      <article id="bibliotheque">
+        <h2 class="major" id="majorBibliotheque">Bibliothèque</h2>
+        <div class="tabs">
+            <p id="tabCategories" class="tab active">Catégories</p>
+            <p id="tabRecent" class="tab">Récent</p>
+        </div>
+        <div id="categoriesView">
+            <div id="familles-grid" class="grid"></div>
+            <div id="articles-view" class="articles-view hidden"></div>
+            <div id="articles-btn" class="articles-btn hidden"></div>
+        </div>
+        <div id="articlesRecentView" class="articlesRecentView hidden">
+          <div id="articlesRecentListe" class="grid articlesRecentListe hidden"></div>
+          <div id="articles-view-recent" class="articles-view hidden"></div>
+          <div id="articles-btn-recent" class="articles-btn hidden"></div>
+        </div>
       </article>
 
       <!-- Work -->
