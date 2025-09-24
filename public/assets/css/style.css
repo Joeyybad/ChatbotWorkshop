@@ -30,7 +30,7 @@ body {
 .iconChat {
     width: 24px;
     height: 24px;
-    fill: #ff8f00;
+    fill: #FF6900;
 }
 
 /****** Fin initialisation du Chat ******/
@@ -81,7 +81,7 @@ body {
 
 }
 .searchBubble:hover {
-    background-color: #ff8f00;
+    background-color: #FF6900;
 }
 /************* Fin barre de recherche  **************/
 
@@ -138,7 +138,7 @@ body {
 /* Header du chat */
 .headerchat {
     background-color: rgba(0,0,0,0.3); /* au lieu de blanc ou gris clair */
-    color: #ff8f00; 
+    color: #FF6900; 
     padding: 15px;
     font-size: 12px;
     border-top-left-radius: 10px;
@@ -178,7 +178,6 @@ body {
     padding: 12px 0;
     border: 1px solid rgb(31, 31, 31);
     border-radius: 30px;
-    background-color: #ffeb3b;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -213,9 +212,9 @@ body {
     position: absolute;
     bottom: 1px;
     right: 10px;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.099);
     border: none;
-    padding: 6px;
+    padding: 8px;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
@@ -224,7 +223,7 @@ body {
 .boutonCroix {
     width: 24px;
     height: 24px;
-    fill: #070707;
+    fill: #FF6900;
 }
 
 /****** Fin Chat Container *******/
