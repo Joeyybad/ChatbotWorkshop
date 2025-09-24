@@ -1,11 +1,15 @@
 const express = require("express");
 const path = require("path");
 const { Op, fn, col, literal } = require("sequelize");
-const { ListeFamille, ChatbotData } = require("./models"); // index.js généré par Sequelize CLI
+const { ListeFamille, ChatbotData, Contact } = require("./models"); // index.js généré par Sequelize CLI
+const { contactValidationRules, validateContact } = require("./middlewares/validateContact");
+const contactLimiter = require("./middlewares/contactLimiter");
+
 
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ---------- Requête de recherche ----------
 app.get("/api/search-titles", async (req, res) => {
@@ -46,7 +50,7 @@ app.get("/api/get-text", async (req, res) => {
     if (!article) return res.status(404).json({ error: "Non trouvé" });
 
     let texte = article.texte;
-    try { texte = JSON.parse(texte); } catch {}
+    try { texte = JSON.parse(texte); } catch { }
     res.json({ texte });
   } catch (err) {
     console.error(err);
@@ -81,6 +85,31 @@ app.get("/api/familles-articles", async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
+
+
+// ---------- requête pour récupèrer les formulaires des utilisateurs -------
+app.post("/contact",
+  contactLimiter,          // limite le nombre de requêtes par IP
+  contactValidationRules,  // règles de validation avec express-validator
+  validateContact,         // middleware qui renvoie les erreurs si présentes 
+  async (req, res) => {
+    try {
+      const { lastname, name, NumeroDIP, sujet, message } = req.body;
+      await Contact.create({
+        lastname,
+        firstname: name,
+        numeroDIP: parseInt(NumeroDIP, 8),
+        sujet,
+        message
+      });
+      res.status(200).json({ success: true, message: "Merci pour votre contribution !" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: "Erreur lors de l’enregistrement." });
+    }
+  });
+
+
 
 // ---------- Servir le front ----------
 app.use(express.static(path.join(__dirname, "public")));
