@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'ChatbotData',
     tableName: 'chatbot_data',
-    timestamps: false
+    timestamps: true
   });
 
   return ChatbotData;
