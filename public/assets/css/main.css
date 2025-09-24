@@ -1467,10 +1467,9 @@ body.is-preload #bg:before {
 }
 
 #header nav ul {
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: -ms-flex;
-    display: flex;
+    display: grid;
+    grid-auto-flow: column; /* aligner en colonnes */
+    grid-auto-columns: 1fr; /* colonnes égales */
     margin-bottom: 0;
     list-style: none;
     padding-left: 0;
@@ -1602,6 +1601,15 @@ body.is-preload #header .content .inner {
     }
 
     #header nav ul {
+        display: -moz-flex;
+        display: -webkit-flex;
+        display: -ms-flex;
+        display: flex;
+        margin-bottom: 0;
+        list-style: none;
+        padding-left: 0;
+        border: solid 1px #FF6900;
+        border-radius: 4px;
         -moz-flex-direction: column;
         -webkit-flex-direction: column;
         -ms-flex-direction: column;
