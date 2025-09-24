@@ -185,21 +185,23 @@ const articlesRecentView = document.getElementById("articlesRecentView"); // art
 
 // Gestion du clic sur Catégories
 tabCategories.addEventListener("click", () => {
-  tabCategories.classList.add("active");
-  tabRecent.classList.remove("active");
+    tabCategories.classList.add("active");
+    tabRecent.classList.remove("active");
+    document.getElementById("majorBibliotheque").textContent = "Bibliothèque";
 
-  categoriesView.classList.remove("hidden");
-  articlesRecentView.classList.add("hidden");
+    categoriesView.classList.remove("hidden");
+    articlesRecentView.classList.add("hidden");
+    loadFamilles();
 });
 
 // Gestion du clic sur Récent
 tabRecent.addEventListener("click", () => {
-  tabRecent.classList.add("active");
-  tabCategories.classList.remove("active");
-  document.getElementById("majorBibliotheque").textContent = "Bibliothèque";
+    tabRecent.classList.add("active");
+    tabCategories.classList.remove("active");
 
-  categoriesView.classList.add("hidden");
-  articlesRecentView.classList.remove("hidden");
+    categoriesView.classList.add("hidden");
+    articlesRecentView.classList.remove("hidden");
+    loadRecentArticle();
 });
 
 
@@ -248,26 +250,100 @@ async function loadFamilles() {
         // Ajout des événements click sur chaque article
         document.querySelectorAll(".article-item").forEach(item => {
             item.addEventListener("click", async () => {
-            const id = item.getAttribute("data-id");
+                const id = item.getAttribute("data-id");
 
-            // On appelle ton API pour récupérer le texte complet
-            const res = await fetch(`/api/get-text?id=${id}`);
-            const data = await res.json();
+                // On appelle ton API pour récupérer le texte complet
+                const res = await fetch(`/api/get-text?id=${id}`);
+                const data = await res.json();
 
-            // On affiche le contenu de l'article
-            articlesView.innerHTML = `<p>${data.texte}</p>`;
-            articlesBtn.innerHTML = `<button id="backArticlesBtn">⬅ Retour</button>`;
+                // On affiche le contenu de l'article
+                articlesView.innerHTML = `<p>${data.texte}</p>`;
+                articlesBtn.innerHTML = `<button id="backArticlesBtn">⬅ Retour</button>`;
 
-            
-            major.textContent = item.textContent;
+                
+                major.textContent = item.textContent;
 
-            // Bouton retour aux articles
-            document.getElementById("backArticlesBtn").addEventListener("click", () => {
+                // Bouton retour aux articles
+                document.getElementById("backArticlesBtn").addEventListener("click", () => {
                     showArticles(famille); // on recharge la liste d'articles
                 });
             });
         });
     }
 }
+
+// Fonction pour afficher la liste des 50 articles les plus récents
+async function loadRecentArticle() {
+    const res = await fetch("/api/select-titre-updated");
+    const articles = await res.json();
+    const articlesRecentListe = document.getElementById("articlesRecentListe");
+    const articlesView = document.getElementById("articles-view-recent");
+    const articlesBtn = document.getElementById("articles-btn-recent");
+    document.getElementById("majorBibliotheque").textContent = "Bibliothèque";
+
+    articlesRecentListe.classList.remove("hidden");
+    articlesRecentView.classList.remove("hidden");
+    articlesView.classList.add("hidden");
+    articlesBtn.classList.add("hidden");
+
+    articlesRecentListe.innerHTML = "";
+    articles.forEach(a => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+        <h5>${a.titre}</h5>
+        <p>${timeAgo(a.updated_at)}</p>
+        `;
+        card.addEventListener("click", () => showArticles(a));
+        articlesRecentListe.appendChild(card);
+    });
+
+
+    async function showArticles(aricle) {
+        articlesRecentListe.classList.add("hidden");
+        articlesView.classList.remove("hidden");
+        articlesBtn.classList.remove("hidden");
+        // on select l'element avec l'id "majorBibliotheque", on le change
+        const major = document.getElementById("majorBibliotheque");
+        major.textContent = aricle.titre;
+
+        // On appelle ton API pour récupérer le texte complet
+        const resArticle = await fetch(`/api/get-text?id=${aricle.id}`);
+        const dataArticle = await resArticle.json();
+        // On affiche le contenu de l'article
+        articlesView.innerHTML = `<p>${dataArticle.texte}</p>`;
+        articlesBtn.innerHTML = `<button id="backArticlesBtn-recent">⬅ Retour</button>`;
+
+        // Bouton retour aux articles
+        document.getElementById("backArticlesBtn-recent").addEventListener("click", () => {
+            console.log("fdsfsdfsfsdf");
+            loadRecentArticle(); // on recharge la liste d'articles
+        });
+    }    
+}
+
+//fonction pour donner les différences entre maintenant et une date (utc)
+function timeAgo(dateUTC) {
+    const now = new Date();
+    const date = new Date(dateUTC);
+    const seconds = Math.floor((now - date) / 1000);
+
+    const intervals = {
+        an: 31536000,
+        mois: 2592000,
+        jour: 86400,
+        heure: 3600,
+        minute: 60,
+    };
+
+    for (const [unit, value] of Object.entries(intervals)) {
+        const count = Math.floor(seconds / value);
+        if (count >= 1) {
+        return `il y a ${count} ${unit}${count > 1 ? "s" : ""}`;
+        }
+    }
+    return "à l'instant";
+}
+
 
 

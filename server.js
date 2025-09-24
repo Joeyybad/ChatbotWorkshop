@@ -20,7 +20,7 @@ app.get("/api/search-titles", async (req, res) => {
         ]
       },
       attributes: [
-        "id", "titre", "texte",
+        "id", "titre",
         [literal(`MATCH(texte) AGAINST('${keyword}' IN NATURAL LANGUAGE MODE)`), "score"]
       ],
       order: [[literal("score"), "DESC"]],
@@ -61,7 +61,7 @@ app.get("/api/familles-articles", async (req, res) => {
         {
           model: ChatbotData,
           through: { attributes: [] }, // n'inclut pas la table de jointure
-          attributes: ["id", "titre", "texte"]
+          attributes: ["id", "titre", "texte", "updated_at"]
         }
       ],
       attributes: ["id", "famille"],
@@ -77,6 +77,39 @@ app.get("/api/familles-articles", async (req, res) => {
     }));
 
     res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// ---------- Requête articles par date de modification ----------
+app.get("/api/select-titre-updated", async (req, res) => {
+  try {
+    const result = await ChatbotData.findAll({
+      include: [
+        {
+          model: ListeFamille,
+          through: { attributes: [] }, // n'inclut pas la table de jointure
+          attributes: ["famille"]
+        }
+      ],
+      attributes: [
+        "id", "titre", "updated_at"
+      ],
+      order: [["updated_at", "DESC"]],
+      limit: 50
+    });
+
+    const results = result.map(r => ({
+      id: r.id,
+      titre: r.titre,
+      updated_at: r.updated_at,
+      famille: r.ListeFamille
+    }));
+
+    res.json(results);
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur serveur" });
