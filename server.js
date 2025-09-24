@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { Op, fn, col, literal } = require("sequelize");
-const { ListeFamille, ChatbotData, Contact } = require("./models"); // index.js généré par Sequelize CLI
+const { Formation, InscritFormation, ListeFamille, ChatbotData, Contact } = require("./models"); // index.js généré par Sequelize CLI
 const { contactValidationRules, validateContact } = require("./middlewares/validateContact");
 const contactLimiter = require("./middlewares/contactLimiter");
 
@@ -87,7 +87,6 @@ app.get("/api/familles-articles", async (req, res) => {
   }
 });
 
-
 // ---------- requête pour récupèrer les formulaires des utilisateurs -------
 app.post("/contact",
   contactLimiter,          // limite le nombre de requêtes par IP
@@ -109,8 +108,6 @@ app.post("/contact",
       res.status(500).json({ success: false, message: "Erreur lors de l’enregistrement." });
     }
   });
-
-
 
 // ---------- Requête articles par date de modification ----------
 app.get("/api/select-titre-updated", async (req, res) => {
@@ -142,6 +139,76 @@ app.get("/api/select-titre-updated", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// --- Récuppérer la liste des formations ---
+app.get('/api/formations', async (req, res) => {
+  try {
+    const categorieId = req.query.categorie || null;
+    const userId = req.query.user || null;
+
+    const whereClause = {};
+    if (categorieId) {
+      whereClause.categorie_id = categorieId;
+    }
+
+    const includeClause = [
+      {
+        model: InscritFormation,
+        as: 'inscriptions',
+        // Si userId est passé, on filtre ici
+        where: userId ? { utilisateur_id: userId } : undefined,
+        required: !!userId // si true => ramène seulement les formations avec cet inscrit
+      }
+    ];
+
+    const formations = await Formation.findAll({
+      where: whereClause,
+      include: includeClause,
+      order: [['date', 'ASC']]
+    });
+
+    res.json(formations);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
+
+
+// --- Récupération des familles/catégories ---
+app.get('/api/categories', async (req, res) => {
+  try {
+    const categories = await ListeFamille.findAll();
+    res.json(categories);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
+
+// --- Inscription à une formation ---
+app.post('/formations/inscription/:id', async (req, res) => {
+  try {
+    const formationId = req.params.id;
+    const utilisateurId = 1; // à remplacer par l'utilisateur connecté
+
+    const dejaInscrit = await InscritFormation.findOne({
+      where: { cours_id: formationId, utilisateur_id: utilisateurId }
+    });
+
+    if (dejaInscrit) return res.status(400).send('Déjà inscrit');
+
+    await InscritFormation.create({
+      cours_id: formationId,
+      utilisateur_id: utilisateurId
+    });
+
+    res.status(200).send('Inscrit avec succès');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Erreur serveur');
   }
 });
 

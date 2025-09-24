@@ -346,4 +346,136 @@ function timeAgo(dateUTC) {
 }
 
 
+// --------- FORMATION -----------
+let formations = [];
+let mesFormations = false;
+const userId = '1';
+
+// Affiche la pop-up
+function showPopup(formation) {
+    let selectedFormationId = formation.id;
+    document.getElementById('popupFormation').style.display = 'flex';
+    document.getElementById('p-popup-content').innerHTML = `Voulez-vous vous inscrire à cette formation ? <br> ${formation.titre}`;
+
+    // Quand on clique sur "Oui"
+    document.getElementById('confirmBtn').onclick = async () => {
+        try {
+            const res = await fetch(`/formations/inscription/${selectedFormationId}`, {
+                method: 'POST'
+            });
+
+            if (res.ok) {
+                const msg = await res.text();
+                alert(msg); // "Inscrit avec succès"
+                document.getElementById('popupFormation').style.display = 'none';
+                fetchFormations(); // recharge pour mettre à jour le nombre de participants
+                hidePopup();
+            } else {
+                const msg = await res.text();
+                alert(msg); // "Déjà inscrit"
+                hidePopup();
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Erreur serveur");
+        }
+    };
+}
+
+// Masque la pop-up
+function hidePopup() {
+    document.getElementById('popupFormation').style.display = 'none';
+}
+
+// Récupère les formations depuis le serveur
+async function fetchFormations(categorieId = '') {
+    try {
+        let url = '/api/formations';
+        const params = new URLSearchParams();
+
+        if (categorieId) params.append('categorie', categorieId);
+        if (mesFormations) params.append('user', userId); 
+
+        if (params.toString()) url += '?' + params.toString();
+
+        console.log("URL fetch :", url); // debug
+
+        const res = await fetch(url);
+        formations = await res.json();;
+        renderFormations();
+    } catch (err) {
+        console.error("Erreur fetchFormations :", err);
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('tabToutesFormations').addEventListener('click', () => {
+    mesFormations = false;
+    document.getElementById('tabMesFormations').classList.remove('active');
+    document.getElementById('tabToutesFormations').classList.add('active');
+    const categorieId = document.getElementById('categorieFilter').value;
+    fetchFormations(categorieId);
+  });
+
+  document.getElementById('tabMesFormations').addEventListener('click', () => {
+    mesFormations = true;
+    document.getElementById('tabToutesFormations').classList.remove('active');
+    document.getElementById('tabMesFormations').classList.add('active');
+    const categorieId = document.getElementById('categorieFilter').value;
+    fetchFormations(categorieId);
+  });
+});
+
+
+
+// Récupère les catégories
+async function fetchCategories() {
+  const res = await fetch('/api/categories');
+  const categories = await res.json();
+  const select = document.getElementById('categorieFilter');
+  categories.forEach(cat => {
+    const option = document.createElement('option');
+    option.value = cat.id;
+    option.textContent = cat.famille;
+    select.appendChild(option);
+  });
+}
+
+// Affiche les cards
+function renderFormations() {
+    const container = document.getElementById('cardsContainer');
+    if (formations.length === 0) {
+        container.innerHTML = '<p>Aucune formation</p>';
+    }
+    else {
+        container.innerHTML = '';
+        formations.forEach(f => {
+            const card = document.createElement('div');
+            card.className = 'cardFormation';
+            card.innerHTML = `
+            <h3>${f.titre}</h3>
+            <p>${f.description}</p>
+            <p>
+                <span>Date: ${f.date}</span> |
+                <span>${f.difficulte}</span> |
+                <span>Durée: ${f.duree}h</span> |
+                <span>Participants: ${f.inscriptions.length}</span>
+            </p>`;
+            card.onclick = () => showPopup(f);
+            container.appendChild(card);
+        });
+    }
+}
+
+// Filtre par catégorie
+document.getElementById('categorieFilter').addEventListener('change', (e) => {
+    fetchFormations(e.target.value);
+});
+
+// Initialisation
+fetchCategories();
+fetchFormations();
+
+
 

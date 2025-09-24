@@ -14,6 +14,9 @@
 
     <!-- Styles spécifiques à la liste des familles -->
     <link rel="stylesheet" href="assets/css/ListeFamille.css" />
+    
+    <!-- Styles spécifiques aux formations -->
+    <link rel="stylesheet" href="assets/css/formation.css" />
 
     <!-- Fallback sans JS -->
     <noscript>
@@ -40,8 +43,8 @@
       <nav>
         <ul>
           <li><a href="#bibliotheque">Bibliothèque</a></li>
+          <li><a href="#formation">Formation</a></li>
           <!--
-          <li><a href="#work">Work</a></li>
           <li><a href="#about">About</a></li>
           -->
           <li><a href="#contact">Contact</a></li>
@@ -70,19 +73,43 @@
                 </div>
             </article>
 
-      <!-- Work 
-      <article id="work">
-        <h2 class="major">Work</h2>
-        <p>Ici le contenu "Work" du template...</p>
-      </article>
-      -->
+            <!-- formation -->
+            <article id="formation" class="formation">
+              <h2 class="major">Formation</h2>
 
-      <!-- About 
-      <article id="about">
-        <h2 class="major">About</h2>
-        <p>Ici le contenu "About" du template...</p>
-      </article>
-      -->
+              <!-- Filtre par catégorie -->
+              <div class="FiltreFormation">
+                <select id="categorieFilter">
+                  <option value="">Toutes les catégories</option>
+                </select>
+                <div class="tabs">
+                  <p id="tabToutesFormations" class="tab active">Toutes</p>
+                  <p id="tabMesFormations" class="tab">Mes formations</p>
+                </div>
+              </div>
+
+
+
+              <div class="formation-cards" id="cardsContainer"></div>
+
+              
+              <!-- Pop-up inscription -->
+              <div id="popupFormation" class="popupFormation">
+                <div class="popup-content">
+                  <p id="p-popup-content"></p>
+                  <button id="confirmBtn">Oui</button>
+                  <button onclick="hidePopup()">Non</button>
+                </div>
+              </div>
+            </article>
+
+
+            <!-- About 
+            <article id="about">
+              <h2 class="major">About</h2>
+              <p>Ici le contenu "About" du template...</p>
+            </article>
+            -->
 
             <!-- Contact -->
             <article id="contact">
