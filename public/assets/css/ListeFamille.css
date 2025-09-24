@@ -22,11 +22,11 @@
 
 
 .btnbibliotheque {
-    margin: 0;
+  margin: 0;
 }
 
 .tab.active {
-  background: orange;
+  background: #FF6900;
   color: #fff;
 }
 
@@ -96,8 +96,7 @@
 }
 
 .articles-btn button {
-    color: #ff8f00 !important;
-    box-shadow: inset 0 0 0 1px #ff8f00;
+    box-shadow: inset 0 0 0 1px #FF6900;
 }
 
 .major {
@@ -119,7 +118,7 @@
     bottom: -2px; /* espace entre texte et ligne */
     width: 0;
     height: 2px; /* épaisseur de la ligne */
-    background-color: #ff8f00;
+    background-color: #FF6900;
     transition: width 0.3s ease; /* animation fluide */
 }
 .article-item:hover {
