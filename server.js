@@ -1,11 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { Op, fn, col, literal } = require("sequelize");
-<<<<<<< HEAD
-const { Formation, InscritFormation, ListeFamille, ChatbotData, Contact } = require("./models"); // index.js généré par Sequelize CLI
-=======
-const { ListeFamille, ChatbotData, Contact, User} = require("./models"); // index.js généré par Sequelize CLI
->>>>>>> jordan
+const { Formation, InscritFormation, ListeFamille, ChatbotData, Contact, User} = require("./models"); // index.js généré par Sequelize CLI
 const { contactValidationRules, validateContact } = require("./middlewares/validateContact");
 const { userValidationRules, validateUser } = require("./middlewares/validateRegister");
 const contactLimiter = require("./middlewares/contactLimiter");
@@ -147,7 +143,6 @@ app.get("/api/select-titre-updated", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 // --- Récuppérer la liste des formations ---
 app.get('/api/formations', async (req, res) => {
   try {
@@ -218,45 +213,60 @@ app.post('/formations/inscription/:id', async (req, res) => {
   }
 });
 
-// ---------- Servir le front ----------
-app.use(express.static(path.join(__dirname, "public")));
-=======
-// ---------- requête pour inscrire les utilisateurs -------
+/**
+ * Route POST /api/user/register
+ * -----------------------------
+ * Permet d'enregistrer un nouvel utilisateur dans la base de données.
+ * 
+ * Fonctionnement général :
+ * 1. Les middlewares `userValidationRules` et `validateUser` sont exécutés avant la fonction principale.
+ *    - `userValidationRules` : définit les règles de validation (prénom, nom, mot de passe, etc.).
+ *    - `validateUser` : vérifie si les données envoyées respectent les règles. Si non, renvoie un message d'erreur.
+ * 2. Génération d'un numéro DIP unique à 8 chiffres pour l'utilisateur.
+ * 3. Création de l'utilisateur dans la base avec les informations fournies.
+ * 4. Retour d'une réponse JSON indiquant succès ou échec.
+ */
+
 app.post(
   "/api/user/register",
-  userValidationRules,
-  validateUser,
+  userValidationRules, // Middleware : règles de validation
+  validateUser,        // Middleware : gestion des erreurs de validation
   async (req, res) => {
     try {
+      // Récupération des données envoyées par le front
       const { password, firstname, lastname, birthdate, city } = req.body;
->>>>>>> jordan
 
-      // Générer un DIP unique à 8 chiffres
+      // --- Génération d'un numéro DIP unique ---
       let numeroDIP;
       let exists = true;
       while (exists) {
-        numeroDIP = Math.floor(10000000 + Math.random() * 90000000); // 8 chiffres
+        numeroDIP = Math.floor(10000000 + Math.random() * 90000000); // 8 chiffres aléatoires
+        // Vérification que le DIP n'existe pas déjà en base
         const userWithSameDIP = await User.findOne({ where: { numeroDIP } });
         if (!userWithSameDIP) exists = false;
       }
 
-      // Créer l’utilisateur
+      // --- Création de l'utilisateur ---
+      // Le mot de passe sera hashé automatiquement grâce au hook défini dans le modèle Sequelize
       const createdUser = await User.create({
         numeroDIP,
         firstname: firstname.trim(),
         lastname: lastname.trim(),
         birthdate: birthdate.trim(),
         city: city.trim(),
-        password: password.trim(), // hashé automatiquement via hook dans le modèle
+        password: password.trim(),
       });
 
+      // --- Réponse JSON succès ---
       return res.status(201).json({
         success: true,
         message: "Utilisateur créé avec succès !",
         userId: createdUser.id,
-        numeroDIP: createdUser.numeroDIP, // on renvoie le DIP pour que l’utilisateur puisse s’en souvenir
+        numeroDIP: createdUser.numeroDIP, // renvoyé pour que l'utilisateur puisse le noter
       });
+
     } catch (error) {
+      // --- Gestion des erreurs serveur ---
       console.error("Erreur lors de l'inscription :", error);
       return res.status(500).json({
         success: false,
@@ -277,7 +287,6 @@ app.get('/', (req, res) => {
 app.get('/index.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
 // Servir les fichiers statiques après
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
