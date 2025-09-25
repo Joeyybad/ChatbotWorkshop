@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification - Phoenix</title>
+
+    <!-- Styles du template -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+
+    <!-- Styles spécifiques au chatbot -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Styles spécifiques à la liste des familles (si nécessaire) -->
+    <link rel="stylesheet" href="assets/css/ListeFamille.css" />
+
+    <!-- Fallback sans JS -->
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+</head>
+
+<body class="is-preload">
+
+    <!-- Background identique à index -->
+    <div id="bg"></div>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="logo">
+                <span class="icon fa-gem"><img src="/images/Phoenix.png" alt="Phoenix Logo" /></span>
+            </div>
+            <div class="content">
+                <div class="inner">
+                    <p>Bienvenue sur Phoenix Horizon, connectez-vous ou inscrivez-vous</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#connexion">Connexion</a></li>
+                    <!--
+          <li><a href="#work">Work</a></li>
+          <li><a href="#about">About</a></li>
+          -->
+                    <li><a href="#register">Inscription</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <main id="main">
+
+            <!-- Connexion -->
+            <article id="connexion">
+                <h2 class="major">Connexion</h2>
+                <form method="post" action="index.html">
+                    <div class="fields">
+                        <div class="field half">
+                            <label for="login-username">Nom d'utilisateur</label>
+                            <input type="text" name="username" id="login-username" placeholder="Votre nom d'utilisateur"
+                                required>
+                        </div>
+                        <div class="field half">
+                            <label for="login-password">Mot de passe</label>
+                            <input type="password" name="password" id="login-password" placeholder="Votre mot de passe"
+                                required>
+                        </div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="Se connecter" class="primary fit"></li>
+                    </ul>
+                </form>
+            </article>
+
+            <!-- Inscription -->
+            <article id="register">
+                <div id="registerMessage" style="display:none; padding:10px; margin-bottom:10px; border-radius:5px;">
+                </div>
+                <h2 class="major">Inscription</h2>
+                <form method="post" action="/api/user/register" id="registerForm">
+                    <div class="fields">
+                        <div class="field half">
+                            <label for="lastname">Nom</label>
+                            <input type="text" name="lastname" id="lastname"  />
+                            <div class="field-error form-error" id="error-lastname"></div>
+                        </div>
+                        <div class="field half">
+                            <label for="firstname">Prénom</label>
+                            <input type="text" name="firstname" id="firstname" />
+                            <div class="field-error form-error" id="error-firstname"></div>
+                        </div>
+                        <div class="field half">
+                            <label for="city">Ville</label>
+                            <input type="text" name="city" id="city" />
+                            <div class="field-error form-error" id="error-city"></div>
+                        </div>
+                        <div class="field half">
+                            <label for="birthdate">Date de naissance</label>
+                            <input type="date" name="birthdate" id="birthdate"  />
+                            <div class="field-error form-error" id="error-birthdate"></div>
+                        </div>
+                        <div class="field">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" name="password" id="password" value="1234" />
+                            <div class="field-error form-error" id="error-password" ></div>
+                        </div>
+                        <div class="field">
+                            <label for="confirmPassword">Confirmer le mot de passe</label>
+                            <input type="password" name="confirmPassword" id="confirmPassword" value="1234"  />
+                            <div class="field-error form-error" id="error-confirmPassword"></div>
+                        </div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="S'inscrire" class="primary" /></li>
+                        <li><input type="reset" value="Effacer" /></li>
+                    </ul>
+                </form>
+            </article>
+
+        </main>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p class="copyright">
+                &copy; 2025 Votre Site. Tous droits réservés.
+            </p>
+        </footer>
+
+    </div> <!-- /#wrapper -->
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/userAuth.js"></script>
+
+</body>
+
+</html>
