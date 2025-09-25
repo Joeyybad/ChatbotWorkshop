@@ -176,7 +176,7 @@ searchButton.addEventListener("click", async () => {
 });
 
 
-// Fonction pour faire le choix entre la liste des catégories ou des récents 
+// --------- Bibliothèque -----------
 const tabCategories = document.getElementById("tabCategories");
 const tabRecent = document.getElementById("tabRecent");
 
@@ -408,7 +408,7 @@ async function fetchFormations(categorieId = '') {
     }
 }
 
-
+// Regarde si on clique sur mes formations ou toutes les fomartions
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('tabToutesFormations').addEventListener('click', () => {
     mesFormations = false;
