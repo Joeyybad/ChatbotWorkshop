@@ -1,8 +1,13 @@
 const express = require("express");
 const path = require("path");
 const { Op, fn, col, literal } = require("sequelize");
+<<<<<<< HEAD
 const { Formation, InscritFormation, ListeFamille, ChatbotData, Contact } = require("./models"); // index.js généré par Sequelize CLI
+=======
+const { ListeFamille, ChatbotData, Contact, User} = require("./models"); // index.js généré par Sequelize CLI
+>>>>>>> jordan
 const { contactValidationRules, validateContact } = require("./middlewares/validateContact");
+const { userValidationRules, validateUser } = require("./middlewares/validateRegister");
 const contactLimiter = require("./middlewares/contactLimiter");
 
 
@@ -88,7 +93,7 @@ app.get("/api/familles-articles", async (req, res) => {
 });
 
 // ---------- requête pour récupèrer les formulaires des utilisateurs -------
-app.post("/contact",
+app.post("/api/contact",
   contactLimiter,          // limite le nombre de requêtes par IP
   contactValidationRules,  // règles de validation avec express-validator
   validateContact,         // middleware qui renvoie les erreurs si présentes 
@@ -142,6 +147,7 @@ app.get("/api/select-titre-updated", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 // --- Récuppérer la liste des formations ---
 app.get('/api/formations', async (req, res) => {
   try {
@@ -214,12 +220,66 @@ app.post('/formations/inscription/:id', async (req, res) => {
 
 // ---------- Servir le front ----------
 app.use(express.static(path.join(__dirname, "public")));
+=======
+// ---------- requête pour inscrire les utilisateurs -------
+app.post(
+  "/api/user/register",
+  userValidationRules,
+  validateUser,
+  async (req, res) => {
+    try {
+      const { password, firstname, lastname, birthdate, city } = req.body;
+>>>>>>> jordan
 
-// Exemple de route pour ta page
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+      // Générer un DIP unique à 8 chiffres
+      let numeroDIP;
+      let exists = true;
+      while (exists) {
+        numeroDIP = Math.floor(10000000 + Math.random() * 90000000); // 8 chiffres
+        const userWithSameDIP = await User.findOne({ where: { numeroDIP } });
+        if (!userWithSameDIP) exists = false;
+      }
+
+      // Créer l’utilisateur
+      const createdUser = await User.create({
+        numeroDIP,
+        firstname: firstname.trim(),
+        lastname: lastname.trim(),
+        birthdate: birthdate.trim(),
+        city: city.trim(),
+        password: password.trim(), // hashé automatiquement via hook dans le modèle
+      });
+
+      return res.status(201).json({
+        success: true,
+        message: "Utilisateur créé avec succès !",
+        userId: createdUser.id,
+        numeroDIP: createdUser.numeroDIP, // on renvoie le DIP pour que l’utilisateur puisse s’en souvenir
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'inscription :", error);
+      return res.status(500).json({
+        success: false,
+        message: "Erreur serveur lors de l'inscription.",
+      });
+    }
+  }
+);
+
+
+
+// Rediriger la racine vers auth.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'auth.html'));
 });
 
+// Route pour accéder directement à index.html
+app.get('/index.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Servir les fichiers statiques après
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.listen(3000, () => {
